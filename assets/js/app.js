@@ -65,8 +65,16 @@ d3.csv("assets/data/state_data.csv").then(function(stateData) {
     .attr("cx", d => xLinearScale(d.obesity_rate))
     .attr("cy", d => yLinearScale(d.poverty_rate))
     .attr("r", "15")
-    .attr("fill", "pink")
-    .attr("opacity", ".5");
+    .attr("class", "stateCircle")
+   
+    chartGroup.append("g").selectAll("text")
+      .data(stateData)
+      .enter()
+      .append("text")
+      .text(function(data){return data.abbr})
+      .attr("x", (d) => xLinearScale(d.obesity_rate))
+      .attr("y", d => yLinearScale(d.poverty_rate))
+      .attr("class", "stateText")
 
     // Step 6: Initialize tool tip
     // ==============================
@@ -74,7 +82,7 @@ d3.csv("assets/data/state_data.csv").then(function(stateData) {
       .attr("class", "tooltip")
       .offset([80, -60])
       .html(function(data, index) {
-        return (`State: ${data.abbr}<br>Obesity Rate: ${data.obesity_rate}<br>Poverty: ${data.poverty_rate}`);
+        return (`Obesity Rate: ${data.obesity_rate}<br>Poverty: ${data.poverty_rate}`);
       });
 
     // Step 7: Create tooltip in the chart
